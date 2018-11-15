@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+
+    <meta charset="utf-8">
+    <title>Car Report</title>
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/dashboard_style.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <link rel="icon" href="{{ url_for('static', filename='icons/report_car_icon2.png') }}">
+
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <div class="topnav" id="myTopnav">
+                <a href="{{ url_for('logout') }}">LOGOUT ({{ user_name }})</a>
+                <a id="link-about" onclick="showHiddenContent()">ОПИСАНИЕ СЕРВИСА</a>
+                <a href="mailto:ykochnev@renins.com?subject=Проблема с sqlsearcher.renins.com">СООБЩИТЬ ОБ ОШИБКЕ</a>
+            </div>
+        </nav>
+    </header>
+
+
+    <div id="input-forms">
+        <form action="{{ url_for('handle_first_form') }}" method="post">
+            <div class="form-blocks">
+                <div>
+                    <input type="text" class="input-text" id="surname" name="surname" placeholder="Фамилия">
+                </div>
+                <div>
+                    <input type="text" class="input-text" id="name" name="name" placeholder="Имя">
+                </div>
+                <div>
+                    <input type="text" class="input-text" id="second_name" name="secondName" placeholder="Отчество">
+                </div>
+                <div>
+                    <input type="text" class="input-text" id="birth_date" name="birthDate" placeholder="ДР (гггг-мм-дд)">
+                </div>
+                <div>
+                    <input type="text" class="input-text" id="fullname" name="fullName" placeholder="ФИО">
+                </div>
+                <div>
+                    <input type="text" class="input-text" id="reg_num" name="regNum" placeholder="REG NUM">
+                </div>      
+            </div>
+
+            <div class="form-blocks" id="div-captcha">
+                <div>
+                    <input id="capcha-image" type="image" name="submit" src="../static/captcha/{{captcha_filename}}.png" border="0" alt="Submit" />
+                    <input class="input-text" type="text" placeholder="Captcha" name="captchaResponse">
+                </div>
+            </div>
+            <div id="captcha-description">
+                <a>Нажмите на изображение, чтоб обновить</a> 
+            </div>
+            <input class="submit-button" type="submit" value="Отчет" />
+        </form>
+    </div>
+    
+
+    <h2 class='title'>ПОИСК ПО ОТКРЫТЫМ ИСТОЧНИКАМ</h2>
+
+
+	<div id="content">
+        <div id="hidden-content" style="display: none;">
+            <h1>sqlsearcher.renins.com</h1><br>
+            <a>Этот сервис позволяет искать информацию в открытых источниках.<br>
+            Если Вы знаете и ФИО и дату рождения клиента, заполните первые 4 формы.<br>
+            Если только ФИО, заполните форму "ФИО".<br>
+            Если только REG NUM, заполните "REG NUM".<br><br>
+            Если что-то пошло не так, если у Вас есть какие-то предложения, пожалуйста, нажмите "СООБЩИТЬ ОБ ОШИБКЕ".
+            </a>
+        </div>
+
+    {% if message %}
+        <div class="message">
+            {{message}}
+        </div>
+    {% endif %}
+
+    {% if output_data %}
+
+		<table id="myTable" cellspacing="0" border="1" cellpadding="5">
+		    <thead>
+		        <tr>
+					<th>REG_DOC_DATE</th>
+					<th>MAKE</th>
+					<th>MODEL</th>
+					<th>YEAR</th>
+					<th>REG_NUM</th>
+					<th>FAMILY</th>
+					<th>NAME</th>
+					<th>PATRONIC</th>
+					<th>BIRTH_DATE</th>
+					<th>PHONE</th>
+					<th>LOAD_DATE</th>
+		    </thead>
+		    <tbody></tbody>
+
+		</table>
+    
+    {% endif %}
+	</div>
+
+</body>
+
+<script>
+    function showHiddenContent() {
+        var x = document.getElementById("hidden-content");
+        console.log(x);
+        console.log(x.style.display);
+        if (x.style.display === "none") {
+            console.log('Hello! Display was none.');
+            x.style.display = "block";
+        } else {
+            console.log('Bye! Display was block.');
+            x.style.display = "none";
+        }
+    }
+</script>
+
+<script>
+    function jsonConvert(data) {
+        data = data.replace(/\\n/g, "\\n")
+                   .replace(/\\'/g, "\\'")
+                   .replace(/\\"/g, '\\"')
+                   .replace(/\\&/g, "\\&")
+                   .replace(/\\r/g, "\\r")
+                   .replace(/\\t/g, "\\t")
+                   .replace(/\\b/g, "\\b")
+                   .replace(/\\f/g, "\\f")
+                   .replace(/&#39;/g, '"')
+                   .replace(/&quot;/g, '"')
+                   .replace(/&#34;/g, '"')
+                   .replace(/[\u0000-\u0019]+/g,"");
+        data = JSON.stringify(data);
+        data = JSON.parse(data);
+        data = JSON.parse(data);
+        return data;
+    }
+
+    var form_data = '{{ form_data }}';
+    form_data = jsonConvert(form_data);
+    console.log(form_data);
+
+    for (var key in form_data) {
+        console.log(key, form_data[key], typeof form_data[key]);
+        document.getElementById(key).value = form_data[key];
+    }
+</script>
+
+<script>
+    function jsonConvert(data) {
+        data = data.replace(/\\n/g, "\\n")
+                   .replace(/\\'/g, "\\'")
+                   .replace(/\\"/g, '\\"')
+                   .replace(/\\&/g, "\\&")
+                   .replace(/\\r/g, "\\r")
+                   .replace(/\\t/g, "\\t")
+                   .replace(/\\b/g, "\\b")
+                   .replace(/\\f/g, "\\f")
+                   .replace(/&#39;/g, '"')
+                   .replace(/&quot;/g, '"')
+                   .replace(/&#34;/g, '"')
+                   .replace(/[\u0000-\u0019]+/g,"");
+        data = JSON.stringify(data);
+        data = JSON.parse(data);
+        data = JSON.parse(data);
+        return data;
+    }
+
+    var data = '{{ output_data }}';
+    data = jsonConvert(data);
+	
+    var tableRef = document.getElementById('myTable').getElementsByTagName('tbody')[0];
+    for (var data_key in data){
+	    console.log('\tDATA', data_key, ':');
+	    var newRow = tableRef.insertRow(tableRef.rows.length);
+	    var i = 0;
+    	for (var key in data[data_key]){
+    		console.log(key, data[data_key][key]);
+			var newCell = newRow.insertCell(i);
+    		var newText = document.createTextNode(data[data_key][key]);
+			newCell.appendChild(newText);
+			i++;
+		}
+    }
+
+</script>
+
+</html>

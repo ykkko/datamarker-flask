@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="ASCII">
+    <title>DataMarker</title>
+    <link rel="icon" href="{{ url_for('static', filename='icons/001.jpg') }}">
+</head>
+
+<script src="{{ url_for('static', filename='js/js_script.js') }}"></script>
+
+<!-- 
+<style type="text/css">
+    .content {
+        width: 60%;
+        height: 100%;
+        margin: auto;
+        background-color: white; 
+    }
+
+    .image {
+        margin: auto;
+
+    }
+</style> -->
+
+<body>
+
+    <div class="content">
+
+        <a href="{{ url_for('logout') }}">Logout ({{ user_name }})</a>
+
+        <h1>Hello, {{ user_name }}! I'm DataMarker. Go!</h1>
+
+        <img src="{{ url_for('static', filename=path_name + image_name) }}" height="400" class='image'>
+
+        <form action="{{ url_for('handle_data') }}" method="post">
+            
+            <input type="hidden" name="imageName" value="{{ image_name }}">
+            <input type="hidden" name="userName" value="{{ user_name }}">
+
+
+            {% for class in classes %}
+                <input type="submit" name="class" id='class{{ loop.index - 1 }}' value="{{ class[0] }}"/>
+            {% endfor %}
+            <!-- <input type="submit" name="class" id='class1' value="{{ classes[1][0] }}"/> -->
+        
+        </form>
+
+    </div>
+
+</body>
+</html>

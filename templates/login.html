@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/dashboard_style.css') }}">
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="topnav" id="myTopnav">
+                <a href="">LOGIN</a>
+                <a id="link-about" onclick="showHiddenContent()">ОПИСАНИЕ СЕРВИСА</a>
+                <a href="mailto:ykochnev@renins.com?subject=Проблема с dash-flask">СООБЩИТЬ ОБ ОШИБКЕ</a>
+            </div>
+        </nav>
+    </header>
+
+    <div id="input-forms">
+        <form action="" method="post">
+            <div class="form-blocks">
+                <div><input class="input-text" type=text placeholder="Login" name=username></div>
+                <div><input class="input-text" type=password placeholder="Password" name=password></div>
+            </div>
+            <input class="submit-button" type=submit value=Login>
+        </form>
+    </div>
+
+    <div id="content">
+        <div id="hidden-content" style="display: none;">
+            <h1>sqlsearcher.renins.com</h1><br>
+            <a>Пожалуйста, вторизируйтесь.<br><br>
+            Если что-то пошло не так, если у Вас есть какие-то предложения, пожалуйста, нажмите "СООБЩИТЬ ОБ ОШИБКЕ".
+            </a>
+        </div>
+
+    {% if message %}
+        <div class="message">
+            {{message}}
+        </div>
+    {% endif %}
+    </div>
+</body>
+
+<script>
+    function showHiddenContent() {
+        var x = document.getElementById("hidden-content");
+        console.log(x);
+        console.log(x.style.display);
+        if (x.style.display === "none") {
+            console.log('Hello! Display was none.');
+            x.style.display = "block";
+        } else {
+            console.log('Bye! Display was block.');
+            x.style.display = "none";
+        }
+    }
+</script>
+
+</html>

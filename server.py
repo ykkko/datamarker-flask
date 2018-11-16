@@ -23,18 +23,15 @@ from js_maker import make_keyListenerJsScript
 
 app = Flask(__name__, static_folder='data')
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
-app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT' # set the secret key.  keep this really secret
+app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'   # set the secret key.  keep this really secret
 
 
 src = 'data/dataset/all_images/'
 dst = 'data/dataset/'
 classes = [
-    ['1_x_long', 49], # key "1"
-    ['2_long', 50], # key "2"
-    ['3_medium', 51],
-    ['4_closeup', 52],
-    ['5_detail', 53],
-    ['6_unknown', 54]
+    ['bad', 49], # key "1"
+    ['good', 50], # key "2"
+    ['other', 51]
 ]
 
 
@@ -76,17 +73,19 @@ def next_image():
         photoForUserDict[user_name] = image_name
 
         print(photoForUserDict)
-        return render_template("next.html", path_name='dataset/all_images/',
-                                            image_name=image_name,
-                                            user_name=user_name,
-                                            classes=classes)
+        return render_template("next.html",
+                               path_name='dataset/all_images/',
+                               image_name=image_name,
+                               user_name=user_name,
+                               classes=classes)
     else:
         print('USER [%s] ALREADY THERE!' % user_name)
         print(photoForUserDict)
-        return render_template("next.html", path_name='dataset/all_images/',
-                                            image_name=photoForUserDict[user_name],
-                                            user_name=user_name,
-                                            classes=classes)
+        return render_template("next.html",
+                               path_name='dataset/all_images/',
+                               image_name=photoForUserDict[user_name],
+                               user_name=user_name,
+                               classes=classes)
 
 
 @app.route('/handle_data', methods=['POST'])
@@ -140,7 +139,6 @@ def logout():
 @app.route("/", methods=['GET', 'POST'])
 def start():
     return redirect('/next')
-
 
 
 if __name__ == '__main__':

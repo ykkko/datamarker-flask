@@ -3,11 +3,13 @@ import os
 from skimage.io import imread, imsave
 
 
-path_to_png_photos = r'C:\NAIVE\datasets\shots\all_images'
+src_dst = r'C:\NAIVE\datasets\good_frame\images'
+dst_path = r'C:\NAIVE\datamarker-flask\data\dataset\all_images'
 
-png_paths = glob.glob(os.path.join(path_to_png_photos, '*.png'))
+png_paths = glob.glob(os.path.join(src_dst, '*.png'))
 print(png_paths)
 
 for png_path in png_paths:
-    jpg_path = png_path.replace('.png', '.jpg')
-    imsave(jpg_path, imread(png_path))
+    file_name = os.path.basename(png_path)
+    dst = os.path.join(dst_path, file_name.replace('.png', '.jpg'))
+    imsave(dst, imread(png_path))

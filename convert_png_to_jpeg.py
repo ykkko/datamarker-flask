@@ -3,7 +3,7 @@ import os
 from skimage.io import imread, imsave
 
 
-src_dst = r'C:\NAIVE\datasets\good_frame\images'
+src_dst = r'C:\NAIVE\datasets\good_frame\test_images'
 dst_path = r'C:\NAIVE\datamarker-flask\data\dataset\all_images'
 
 png_paths = glob.glob(os.path.join(src_dst, '*.png'))

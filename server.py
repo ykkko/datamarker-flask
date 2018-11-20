@@ -29,9 +29,12 @@ app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'   # set the secret key.  keep 
 src = 'data/dataset/all_images/'
 dst = 'data/dataset/'
 classes = [
-    ['bad', 49], # key "1"
-    ['good', 50], # key "2"
-    ['other', 51]
+    ['1_x_long', 49],   # key "1"
+    ['2_long', 50],     # key "2"
+    ['3_medium', 51],
+    ['4_closeup', 52],
+    ['5_detail', 53],
+    ['6_other', 54],
 ]
 
 
